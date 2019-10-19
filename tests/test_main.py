@@ -10,7 +10,6 @@ def test_piuma_url(settings, client):
     assert piumaurl == 'http://mypiumahost/200_200_80//static/img/a.png'
 
 
-
 def test_piuma_tag_without_request(settings, client):
     context = {}
     piumaurl = piuma(context, 'img/a.png')
