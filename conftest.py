@@ -11,5 +11,6 @@ settings.configure(
         'django.contrib.auth',
         'pypiuma'
     ],
-    #ROOT_URLCONF='tests.urls',
+    PIUMA_HOST='/piuma/',
+    STATIC_URL = '/static/'
 )

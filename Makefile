@@ -5,5 +5,5 @@ clean:
 	@find . -name "__pycache__" -type d | xargs rm -rf
 
 test: clean
-  @flake8 pypiuma
+	@flake8 pypiuma
 	@pytest --cov pypiuma -s --cov-report term-missing
