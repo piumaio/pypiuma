@@ -29,7 +29,7 @@ A library to use Piuma with Python and Django
     {% load pypiuma_tags %}
 
     {% piuma_picture 'http://myimagehost/static/img/a.png'%}
-    {% piuma_picture_static 'img/a.png' width=200 %}
+    {% piuma_picture_static 'img/a.png' %}
 
 ## Settings
 
