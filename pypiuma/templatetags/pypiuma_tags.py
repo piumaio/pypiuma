@@ -18,7 +18,7 @@ def get_host_url(request):
 
 
 @register.simple_tag(takes_context=True)
-def piuma(context, image_url, width=0, height=0, quality=80):
+def piuma(context, image_url, width=0, height=0, quality=100):
     if getattr(settings, 'PIUMA_DISABLED', False):
         return image_url
     if not image_url.startswith('http'):
@@ -32,7 +32,7 @@ def piuma(context, image_url, width=0, height=0, quality=80):
 
 
 @register.simple_tag(takes_context=True)
-def piuma_static(context, image_url, width=0, height=0, quality=80):
+def piuma_static(context, image_url, width=0, height=0, quality=100):
     return piuma(context, static(image_url), width, height, quality)
 
 
