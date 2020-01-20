@@ -14,7 +14,7 @@ def test_piuma_url(settings, client):
 def test_piuma_tag_without_request(settings, client):
     context = {}
     piumaurl = piuma(context, 'img/a.png')
-    assert piumaurl == '/piuma/0_0_80//img/a.png'
+    assert piumaurl == '/piuma/0_0_100//img/a.png'
     settings.PIUMA_DISABLED = True
     piumaurl = piuma(context, 'img/a.png')
     assert piumaurl == 'img/a.png'
@@ -25,7 +25,7 @@ def test_piuma_tag(settings, client):
         'request' : RequestFactory(HTTP_HOST='localhost:8000').get('/')
     }
     piumaurl = piuma(context, 'img/a.png')
-    assert piumaurl == '/piuma/0_0_80/http://localhost:8000/img/a.png'
+    assert piumaurl == '/piuma/0_0_100/http://localhost:8000/img/a.png'
     settings.PIUMA_DISABLED = True
     piumaurl = piuma(context, 'img/a.png')
     assert piumaurl == 'img/a.png'
@@ -36,7 +36,7 @@ def test_static_piuma_tag(settings, client):
         'request' : RequestFactory(HTTP_HOST='localhost:8000').get('/')
     }
     piumaurl = piuma_static(context, 'img/a.png')
-    assert piumaurl == '/piuma/0_0_80/http://localhost:8000/static/img/a.png'
+    assert piumaurl == '/piuma/0_0_100/http://localhost:8000/static/img/a.png'
     settings.PIUMA_DISABLED = True
     piumaurl = piuma_static(context, 'img/a.png')
     assert piumaurl == '/static/img/a.png'
