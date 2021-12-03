@@ -9,6 +9,10 @@ def test_piuma_url(settings, client):
     assert piumaurl == 'http://mypiumahost/200_200_80/http://myhost/static/img/a.png'
     piumaurl = piuma_url('http://mypiumahost', '/static/img/a.png', 200, 200, 80)
     assert piumaurl == 'http://mypiumahost/200_200_80//static/img/a.png'
+    piumaurl = piuma_url('http://mypiumahost', '/static/img/a.png', 200, 200, 80, adaptive_quality=True)
+    assert piumaurl == 'http://mypiumahost/200_200_80a//static/img/a.png'
+    piumaurl = piuma_url('http://mypiumahost', '/static/img/a.png', 200, 200, 80, adaptive_quality=True, convert_to="auto")
+    assert piumaurl == 'http://mypiumahost/200_200_80a:auto//static/img/a.png'
 
 
 def test_piuma_tag_without_request(settings, client):

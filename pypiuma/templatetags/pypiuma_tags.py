@@ -18,7 +18,7 @@ def get_host_url(request):
 
 
 @register.simple_tag(takes_context=True)
-def piuma(context, image_url, width=0, height=0, quality=100):
+def piuma(context, image_url, width=0, height=0, quality=100, adaptive_quality=False, convert_to=""):
     if getattr(settings, 'PIUMA_DISABLED', False):
         return image_url
     if not image_url.startswith('http'):
@@ -27,13 +27,13 @@ def piuma(context, image_url, width=0, height=0, quality=100):
         ).rstrip('/') + '/' + image_url.lstrip('/')
     return piuma_url(
         getattr(settings, 'PIUMA_HOST', '/piuma/'),
-        image_url, width, height, quality
+        image_url, width, height, quality, adaptive_quality, convert_to
     )
 
 
 @register.simple_tag(takes_context=True)
-def piuma_static(context, image_url, width=0, height=0, quality=100):
-    return piuma(context, static(image_url), width, height, quality)
+def piuma_static(context, image_url, width=0, height=0, quality=100, adaptive_quality=False, convert_to=""):
+    return piuma(context, static(image_url), width, height, quality, adaptive_quality, convert_to)
 
 
 def _generate_srcset(context, image_url, media_rule, size):
@@ -105,7 +105,6 @@ def piuma_picture(context, image_url, media_rules=None, picture_id="", img_id=""
 
 @register.simple_tag(takes_context=True)
 def piuma_picture_static(context, image_url, media_rules=None, picture_id="", img_id="", picture_class="", img_class="", img_alt=""):
-    print(static(image_url))
     return piuma_picture(
         context, static(image_url), media_rules,
         picture_id, img_id, picture_class,
