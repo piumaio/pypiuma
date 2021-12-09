@@ -23,7 +23,7 @@ def get_host_url(request):
 def piuma_size(size, **params):
     if getattr(settings, 'PIUMA_SIZES', {}).get(size):
         params = {**params, **settings.PIUMA_SIZES[size]}
-    elif not size and "*" in settings.PIUMA_SIZES:
+    elif not size and "*" in getattr(settings, 'PIUMA_SIZES', {}):
         params = {**params, **settings.PIUMA_SIZES["*"]}
 
     return params
@@ -58,22 +58,16 @@ def piuma_static(context, image_url, width=0, height=0, quality=100, adaptive_qu
 
 @register.simple_tag(takes_context=True)
 def piuma_img(context, image_url, width=0, height=0, quality=100, adaptive_quality=False, convert_to="", size="", **img_attributes):
-    generate_img = lambda url, attrs: mark_safe(
-        "<img src='{0}' {1}>".format(
-            image_url,
-            " ".join(['{0}="{1}"'.format(k, v) for k, v in img_attributes.items()]),
+    def generate_img(url, attrs):
+        return mark_safe(
+            "<img src='{0}' {1}>".format(
+                image_url,
+                " ".join(['{0}="{1}"'.format(k, v) for k, v in img_attributes.items()]),
+            )
         )
-    )
 
     if getattr(settings, "PIUMA_DISABLED", False):
         return generate_img(image_url, img_attributes)
-
-    if not image_url.startswith("http"):
-        image_url = (
-            get_host_url(context.get("request", None)).rstrip("/")
-            + "/"
-            + image_url.lstrip("/")
-        )
 
     params = piuma_size(
         size,
