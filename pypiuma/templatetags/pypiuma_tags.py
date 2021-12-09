@@ -1,3 +1,5 @@
+import re
+
 from django import template
 from django.conf import settings
 from django.templatetags.static import static
@@ -6,6 +8,7 @@ from django.utils.safestring import mark_safe
 from pypiuma import piuma_url
 
 
+exclude_regex = r".+\.(svg)$"
 register = template.Library()
 
 
@@ -36,7 +39,7 @@ def piuma_media_rules():
 
 @register.simple_tag(takes_context=True)
 def piuma(context, image_url, width=0, height=0, quality=100, adaptive_quality=False, convert_to="", size=""):
-    if getattr(settings, 'PIUMA_DISABLED', False):
+    if getattr(settings, 'PIUMA_DISABLED', False) or re.match(exclude_regex, image_url):
         return image_url
     if not image_url.startswith('http'):
         image_url = get_host_url(
