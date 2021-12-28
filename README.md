@@ -23,7 +23,7 @@ piuma_url("http://mypiumahost", "http://myimagehost/static/img/a.png", 200, 200,
 ```html
 {% load pypiuma_tags %}
 
-<img src="{% piuma 'http://myimagehost/static/img/a.png' width=200 %}">
+<img src="{% piuma 'http://myimagehost/static/img/a.png' width=200 convert_to="auto" %}">
 <img src="{% piuma_static 'img/mylogo.png' width=200 %}">
 ```
 
@@ -55,6 +55,39 @@ Default:  `/piuma/`
 Media rules for picture tags.
 
 Default: `(max-width: 576px),(max-width: 768px),(max-width: 992px),(max-width: 1366px)`
+
+## PIUMA_SIZES
+
+Fast configurations for your images. These can be handy if you want to define different
+sizes like `small`, `medium`, `full` to serve the best optimized version of the image for your needs.
+The `*` size, if defined, is applied to all images imported with a tag that do not specify a size.
+
+Default: `{}`
+
+Example:
+```python
+{
+  "*": {
+    "convert_to": "auto",
+    "quality": 80
+  },
+  "small": {
+    "width": 300,
+    "convert_to": "auto",
+    "quality": 80
+  },
+  "medium": {
+    "width": 500,
+    "convert_to": "auto",
+    "quality": 80
+  },
+  "large": {
+    "width": 1000,
+    "convert_to": "auto",
+    "quality": 80
+  }
+}
+```
 
 ## Run tests
 

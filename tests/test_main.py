@@ -1,7 +1,7 @@
 from django.test import RequestFactory
 
 from pypiuma import piuma_url
-from pypiuma.templatetags.pypiuma_tags import piuma, piuma_static, piuma_picture, piuma_picture_static
+from pypiuma.templatetags.pypiuma_tags import piuma, piuma_img, piuma_img_static, piuma_static, piuma_picture, piuma_picture_static
 
 
 def test_piuma_url(settings, client):
@@ -9,6 +9,10 @@ def test_piuma_url(settings, client):
     assert piumaurl == 'http://mypiumahost/200_200_80/http://myhost/static/img/a.png'
     piumaurl = piuma_url('http://mypiumahost', '/static/img/a.png', 200, 200, 80)
     assert piumaurl == 'http://mypiumahost/200_200_80//static/img/a.png'
+    piumaurl = piuma_url('http://mypiumahost', '/static/img/a.png', 200, 200, 80, adaptive_quality=True)
+    assert piumaurl == 'http://mypiumahost/200_200_80a//static/img/a.png'
+    piumaurl = piuma_url('http://mypiumahost', '/static/img/a.png', 200, 200, 80, adaptive_quality=True, convert_to="auto")
+    assert piumaurl == 'http://mypiumahost/200_200_80a:auto//static/img/a.png'
 
 
 def test_piuma_tag_without_request(settings, client):
@@ -66,4 +70,25 @@ def test_piuma_picture(settings, client):
             context,
             "img/a.png"
         )
+    )
+
+def test_piuma_img(settings, client):
+    context = {
+        'request' : RequestFactory(HTTP_HOST='localhost:8000').get('/')
+    }
+
+    piuma_img(
+        context,
+        "http://localhost:8000/img/a.png"
+    )
+
+    piuma_img(
+        context,
+        "http://localhost:8000/img/a.png",
+        500
+    )
+
+    piuma_img_static(
+        context,
+        "img/a.png"
     )
