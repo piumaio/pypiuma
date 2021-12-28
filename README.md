@@ -1,8 +1,8 @@
 # PyPiuma
 
 [![Latest Version](https://img.shields.io/pypi/v/pypiuma.svg)](https://pypi.python.org/pypi/pypiuma/)
+[![CI](https://github.com/piumaio/pypiuma/actions/workflows/ci.yml/badge.svg)](https://github.com/piumaio/pypiuma)
 [![codecov](https://codecov.io/gh/piumaio/pypiuma/branch/master/graph/badge.svg)](https://codecov.io/gh/piumaio/pypiuma)
-[![Build Status](https://travis-ci.org/piumaio/pypiuma.svg?branch=master)](https://travis-ci.org/piumaio/pypiuma)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://github.com/piumaio/pypiuma/blob/master/LICENSE)
 
 A library to use Piuma with Python and Django
