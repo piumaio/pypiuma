@@ -6,4 +6,4 @@ clean:
 
 test: clean
 	@flake8 pypiuma
-	@pytest --cov pypiuma -s --cov-report term-missing
+	@pytest --cov=pypiuma -s --cov-report=xml --cov-report term-missing
