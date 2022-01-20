@@ -87,7 +87,7 @@ def piuma_img(context, image_url, width=0, height=0, quality=100, adaptive_quali
         [
             "{0} {1}".format(
                 piuma(context, image_url, **{**params, "width": w, "height": 0}),
-                "{0}w".format(width),
+                "{0}w".format(w),
             )
             for _, w in media_rules
         ]
