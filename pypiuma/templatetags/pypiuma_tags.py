@@ -80,7 +80,7 @@ def piuma_img(context, image_url, width=0, height=0, quality=100, adaptive_quali
     media_rules = _generate_media_rules_sizes(
         context,
         piuma_media_rules(),
-        width or params.get("width", 0),
+        width or params.get("width", 0) or 0,
     )
     img_attributes["sizes"] = ",".join(["{0} {1}px".format(*media_rule) for media_rule in media_rules])
     img_attributes["srcset"] = ",".join(
@@ -127,7 +127,7 @@ def _generate_media_rules_sizes(context, media_rules, size_limit=0):
         )
         size = sanitized_media_rule.split(':')[1]
 
-        if size_limit <= 0 or (int(size) <= size_limit):
+        if int(size_limit) <= 0 or (int(size) <= int(size_limit)):
             generated_media_rules.append((media_rule, size))
     return generated_media_rules
 
