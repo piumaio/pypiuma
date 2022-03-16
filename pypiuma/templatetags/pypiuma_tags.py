@@ -29,12 +29,12 @@ def piuma_size(size, **params):
     return params
 
 
-def piuma_media_rules():
+def piuma_media_rules(image_width=None):
     return getattr(
         settings,
         "PIUMA_MEDIA_RULES",
         "(max-width: 576px),(max-width: 768px),(max-width: 992px),(max-width: 1366px)",
-    )
+    ) + (",(max-width: {0}px)".format(image_width) if image_width else "")
 
 
 @register.simple_tag(takes_context=True)
@@ -79,7 +79,7 @@ def piuma_img(context, image_url, width=0, height=0, quality=100, adaptive_quali
     )
     media_rules = _generate_media_rules_sizes(
         context,
-        piuma_media_rules(),
+        piuma_media_rules(width or params.get("width", 0) or 0),
         width or params.get("width", 0) or 0,
     )
     img_attributes["sizes"] = ",".join(["{0} {1}px".format(*media_rule) for media_rule in media_rules])
