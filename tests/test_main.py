@@ -1,3 +1,4 @@
+import re
 from django.test import RequestFactory
 
 from pypiuma import piuma_url
@@ -83,4 +84,23 @@ def test_piuma_img(settings, client):
 
     piuma_img(context, "http://localhost:8000/img/a.png", 500)
 
-    piuma_img_static(context, "img/a.png")
+    test_img = piuma_img(context, "http://localhost:8000/img/a.png", width=500, image_width=1000, image_height=600)
+    assert re.search(r"width=\"(\d+)\"", test_img).group(1) == "500"
+    assert re.search(r"height=\"(\d+)\"", test_img).group(1) ==  str(int((600*500)/1000))
+
+    test_img = piuma_img(context, "http://localhost:8000/img/a.png", height=500, image_width=1000, image_height=600)
+    assert re.search(r"height=\"(\d+)\"", test_img).group(1) == "500"
+    assert re.search(r"width=\"(\d+)\"", test_img).group(1) ==  str(int((1000*500)/600))
+
+    test_img = piuma_img(context, "http://localhost:8000/img/a.png", height=500, alt="test image")
+    assert re.search(r"height=\"(\d+)\"", test_img).group(1) == "500"
+    assert re.search(r"width=\"(\d+)\"", test_img) == None
+    assert re.search(r"alt=\"test image\"", test_img) != None
+
+    test_img = piuma_img(context, "http://localhost:8000/img/a.png", image_width=1000, image_height=600)
+    assert re.search(r"height=\"(\d+)\"", test_img).group(1) == "600"
+    assert re.search(r"width=\"(\d+)\"", test_img).group(1) == "1000"
+    assert re.search(r"src=\"/piuma/0_0_100/http://localhost:8000/img/a.png\"", test_img) != None
+
+    test_img = piuma_img_static(context, "img/a.png")
+    assert re.search(r"src=\"/piuma/0_0_100/http://localhost:8000/static/img/a.png\"", test_img) != None

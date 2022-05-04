@@ -104,15 +104,21 @@ def piuma_img(
     adaptive_quality=False,
     convert_to="",
     size="",
+    image_width=0,
+    image_height=0,
     **img_attributes
 ):
     def generate_img(url, attrs):
         return mark_safe(
-            "<img src='{0}' {1}>".format(
+            "<img src=\"{0}\" {1}>".format(
                 image_url,
                 " ".join(['{0}="{1}"'.format(k, v) for k, v in img_attributes.items()]),
             )
         )
+
+    if image_width and image_height:
+        img_attributes["width"] = int(image_width)
+        img_attributes["height"] = int(image_height)
 
     if getattr(settings, "PIUMA_DISABLED", False):
         return generate_img(image_url, img_attributes)
@@ -127,8 +133,8 @@ def piuma_img(
     )
     media_rules = _generate_media_rules_sizes(
         context,
-        piuma_media_rules(width or params.get("width", 0) or 0),
-        width or params.get("width", 0) or 0,
+        piuma_media_rules(int(params.get("width", 0)) or image_width or 0),
+        int(params.get("width", 0)) or image_width or 0,
     )
     img_attributes["sizes"] = ",".join(
         ["{0} {1}px".format(*media_rule) for media_rule in media_rules]
@@ -143,9 +149,30 @@ def piuma_img(
         ]
     )
     image_url = piuma(context, image_url, **params)
-    if params.get("width") and params.get("height"):
-        img_attributes["width"] = params.get("width")
-        img_attributes["height"] = params.get("height")
+    if image_width and image_height:
+        if (
+            int(params.get("width", 0)) != 0
+            and int(params.get("width")) != image_width
+            and int(params.get("height", 0)) == 0
+        ):
+            img_attributes["height"] = int(
+                (int(image_height) * int(params.get("width"))) / int(image_width)
+            )
+            img_attributes["width"] = int(params.get("width", 0))
+        elif (
+            int(params.get("height", 0)) != 0
+            and int(params.get("height")) != image_height
+            and int(params.get("width", 0)) == 0
+        ):
+            img_attributes["width"] = int(
+                (int(image_width) * int(params.get("height"))) / int(image_height)
+            )
+            img_attributes["height"] = int(params.get("height", 0))
+    else:
+        if int(params.get("width", 0)):
+            img_attributes["width"] = params.get("width")
+        if int(params.get("height", 0)):
+            img_attributes["height"] = params.get("height")
 
     return generate_img(image_url, img_attributes)
 
@@ -160,6 +187,8 @@ def piuma_img_static(
     adaptive_quality=False,
     convert_to="",
     size="",
+    image_width=0,
+    image_height=0,
     **img_attributes
 ):
     return piuma_img(
@@ -171,6 +200,8 @@ def piuma_img_static(
         adaptive_quality,
         convert_to,
         size,
+        image_width,
+        image_height,
         **img_attributes,
     )
 
