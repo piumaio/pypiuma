@@ -134,8 +134,8 @@ def piuma_img(
     )
     media_rules = _generate_media_rules_sizes(
         context,
-        piuma_media_rules(int(params.get("width", 0)) or image_width or 0),
-        int(params.get("width", 0)) or image_width or 0,
+        piuma_media_rules(int(params.get("width") or 0) or image_width or 0),
+        int(params.get("width") or 0) or image_width or 0,
     )
     img_attributes["sizes"] = ",".join(
         ["{0} {1}px".format(*media_rule) for media_rule in media_rules]
@@ -283,11 +283,11 @@ def piuma_picture(
         convert_to=convert_to,
     )
     media_rules = media_rules or piuma_media_rules(
-        int(params.get("width", 0)) or image_width or 0
+        int(params.get("width") or 0) or image_width or 0
     )
     html = _generate_picture_tag(**picture_attributes)
     for media_rule_size in _generate_media_rules_sizes(
-        context, media_rules, int(params.get("width", 0)) or image_width or 0
+        context, media_rules, int(params.get("width") or 0) or image_width or 0
     ):
         html += _generate_srcset(
             context, image_url, media_rule_size[0], media_rule_size[1], **params
