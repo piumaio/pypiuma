@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='pypiuma',
-    version='1.1.5',
+    version='1.1.6',
     url='https://github.com/piumaio',
     install_requires=[],
     description="Piuma Python library with Django support",
