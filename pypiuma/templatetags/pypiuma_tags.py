@@ -228,9 +228,9 @@ def _generate_picture_img(context, image_url, params={}, **img_attributes):
 def _calculate_image_sizes(params, original_width, original_height):
     if (
         original_width
-        and int(params.get("width", 0)) != 0
-        and int(params.get("width")) != original_height
-        and int(params.get("height", 0)) == 0
+        and int(params.get("width") or 0) != 0
+        and int(params.get("width") or 0) != original_height
+        and int(params.get("height") or 0) == 0
     ):
         return (
             int(params["width"]),
@@ -238,9 +238,9 @@ def _calculate_image_sizes(params, original_width, original_height):
         )
     elif (
         original_height
-        and int(params.get("height", 0)) != 0
-        and int(params.get("height")) != original_height
-        and int(params.get("width", 0)) == 0
+        and int(params.get("height") or 0) != 0
+        and int(params.get("height") or 0) != original_height
+        and int(params.get("width") or 0) == 0
     ):
         return (
             int((int(original_width) * int(params["height"])) / int(original_height)),
@@ -248,8 +248,8 @@ def _calculate_image_sizes(params, original_width, original_height):
         )
     else:
         return (
-            int(params.get("width", 0)) or original_width,
-            int(params.get("height", 0)) or original_height,
+            int(params.get("width") or 0) or original_width,
+            int(params.get("height") or 0) or original_height,
         )
 
 
