@@ -1,7 +1,7 @@
 
 Django<2.3
 
-codecov==2.0.9
+codecov==2.0.16
 coverage>=4.4
 flake8
 mock==2.0.0
