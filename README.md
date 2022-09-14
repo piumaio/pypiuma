@@ -23,7 +23,7 @@ piuma_url("http://mypiumahost", "http://myimagehost/static/img/a.png", 200, 200,
 ```html
 {% load pypiuma_tags %}
 
-<img src="{% piuma 'http://myimagehost/static/img/a.png' width=200 convert_to="auto" %}">
+<img src="{% piuma 'http://myimagehost/static/img/a.png' width=200 convert_to="auto" size="medium" %}">
 <img src="{% piuma_static 'img/mylogo.png' width=200 %}">
 ```
 
