@@ -69,22 +69,22 @@ Example:
 {
   "*": {
     "convert_to": "auto",
-    "quality": 80
+    "quality": 90
   },
   "small": {
     "width": 300,
     "convert_to": "auto",
-    "quality": 80
+    "quality": 90
   },
   "medium": {
     "width": 500,
     "convert_to": "auto",
-    "quality": 80
+    "quality": 90
   },
   "large": {
     "width": 1000,
     "convert_to": "auto",
-    "quality": 80
+    "quality": 90
   }
 }
 ```
